@@ -17,7 +17,7 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(Dialogue dialogue)
     {
-        if(sentences.Count == 0 && !dialoguePanel.active){
+        if(sentences.Count == 0 && !dialoguePanel.activeSelf){
             dialoguePanel.SetActive(true);
             foreach (string sentence in dialogue.sentences){
                 sentences.Enqueue(sentence);

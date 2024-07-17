@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -10,7 +12,7 @@ public class PlayerController : MonoBehaviour
     Vector3 dirVec;
     SpriteRenderer spriteRenderer;
     Animator animator;
-
+    public bool isMoveable = true;
 
     void Awake()
     {
@@ -26,9 +28,12 @@ public class PlayerController : MonoBehaviour
     }
 
     void Move(){
+        if(!isMoveable){
+            return;
+        }
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveY = Input.GetAxisRaw("Vertical");
-
+        
         Vector2 movement = new Vector2(moveX, moveY).normalized * speed;
 
         rigid.velocity = new Vector2(movement.x, movement.y);
@@ -55,10 +60,10 @@ public class PlayerController : MonoBehaviour
     }
 
     void Interaction() {
-        
         RaycastHit2D hit = Physics2D.Raycast(transform.position, dirVec, 1.5f);
         if (Input.GetKeyDown(KeyCode.F) && hit)
-        {
+        {   
+            isMoveable = false;
             // GameObject hitObject = hit.collider.gameObject;
             IInteractable interactable = hit.collider.GetComponent<IInteractable>();
             if (interactable != null)
